@@ -1,0 +1,94 @@
+<html lang="en">
+    <head>
+        <!-- 
+            https://developer.chrome.com/docs/extensions/mv3/getstarted/tut-reading-time/
+            https://learn.microsoft.com/en-us/microsoft-edge/extensions-chromium/getting-started/
+            
+            Sending messages between current web page and extension popup: 
+            https://developer.chrome.com/docs/extensions/mv3/messaging/
+        -->
+        <meta charset="UTF-8" />
+        <title>Accessibility Statement Viewer</title>
+        <style>
+            body {
+                width: 400px;
+                margin: 0;
+            }
+
+            h2 {
+                display: inline;
+                font-size: 120%;
+            }
+
+            details {
+                padding: 10px;
+                border-bottom: 1px solid #ccc;
+            }
+
+            details summary {
+                cursor: pointer;
+            }
+
+            summary.ok {
+                list-style-type: "\2705";
+            }
+
+            summary.nok {
+                list-style-type: "\274C";
+            }
+
+            legend, input {
+                margin-top: 10px;
+                margin-bottom: 3px;
+            }
+        </style>
+    </head>
+    <body>        
+        <div>
+            <!-- <h1>Accessibility Statement Viewer</h1> -->
+            <details>
+                <summary id="stSummary">
+                    <h2>Accessibility statement</h2>
+                </summary>
+                <p>
+                    <a href="#" id="statement">View this site's accessibility statement</a>
+                </p>    
+            </details>
+            <details>
+                <summary id="fbSummary">
+                    <h2>Feedback form</h2>
+                </summary>
+                <p>
+                    <a href="#" id="feedback">View this site's feedback page</a>
+                </p>    
+                <form>
+                    <legend for="feedbackForm">What is your question about?</legend>
+                    <select id="feedbackForm">
+                        <option>Can't read information on an image</option>
+                        <option>Would like the information in an alternative format</option>
+                        <option>I cannot read all the information due to contrast issues</option>
+                        <option>Other</option>
+                    </select>
+                    <legend for="feedbackMore">Please provide any further information here:</legend>
+                    <textarea id="feedbackMore" cols="40" rows="7"></textarea>
+                    <legend for="feedbackExtra">The following technical information will be transmitted to the site owner:</legend>
+                    <textarea id="feedbackExtra" cols="40" rows="4" readonly></textarea>
+                    <br>
+                    <input type="submit" value="Submit the form">
+                </form>
+            </details>
+            <details>
+                <summary id="cpSummary">
+                    <h2>Complaints procedure</h2>
+                </summary>
+                <p>
+                    <a href="#" id="complaints">View this site's complaints page</a>
+                </p>    
+            </details>
+<!--
+            <img src="/icons/ally128x128.png" alt="accessibility" />
+-->
+        </div>
+        <script src="popup.js"></script>
+    </body>
+</html>
