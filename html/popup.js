@@ -9,45 +9,36 @@
   document.getElementById("feedbackExtra").value = tech;
 
   if(!(a11yLnks.st === "none")) {
-    const lnkSt = document.getElementById("statement"); 
-    lnkSt.href = a11yLnks.st;
-    lnkSt.addEventListener("click",loadNewTab);  
-    document.getElementById("stSummary").classList.add("ok");
-    document.getElementById("stSummary").classList.remove("nok");
+    AddLink(document.getElementById("statement"),a11yLnks.st);
+    ToggleOkClass("stSummary");
+/*
+    This won't work because the popup.js is only triggered when the popup shows.
+    chrome.tabs.query({active: true, currentWindow: true}, ([tab]) => {
+      chrome.action.setIcon({tabId: tab.id, path: 'icons/ally-ok-16x16.png'});
+    });
+*/
   }
   else {
-    const lnkFb = document.getElementById("feedback");
-    lnkFb.innerText = "This page has not declared an accessibility statement page"; 
-    document.getElementById("stSummary").classList.remove("ok");
-    document.getElementById("stSummary").classList.add("nok");
+    AddMissingStatement(document.getElementById("statement"),"This site has not declared an accessibility statement page");
+    ToggleNokClass("stSummary");
   }
 
   if(!(a11yLnks.fb === "none")) {
-    const lnkFb = document.getElementById("feedback"); 
-    lnkFb.href = a11yLnks.fb;
-    lnkFb.addEventListener("click",loadNewTab);
-    document.getElementById("fbSummary").classList.add("ok");
-    document.getElementById("fbSummary").classList.remove("nok");
+    AddLink(document.getElementById("feedback"),a11yLnks.fb);
+    ToggleOkClass("fbSummary");
   }
   else {
-    const lnkFb = document.getElementById("feedback");
-    lnkFb.innerText = "This page has not declared a feedback page"; 
-    document.getElementById("fbSummary").classList.remove("ok");
-    document.getElementById("fbSummary").classList.add("nok");
+    AddMissingStatement(document.getElementById("feedback"),"This site has not declared a feedback page");
+    ToggleNokClass("fbSummary");
   }
 
   if(!(a11yLnks.cp === "none")) {
-    const lnkCp = document.getElementById("complaints"); 
-    lnkCp.href = a11yLnks.cp;
-    lnkCp.addEventListener("click",loadNewTab);
-    document.getElementById("cpSummary").classList.add("ok");
-    document.getElementById("cpSummary").classList.remove("nok");
+    AddLink(document.getElementById("complaints"),a11yLnks.cp);
+    ToggleOkClass("cpSummary");
   }
   else {
-    const lnkFb = document.getElementById("feedback");
-    lnkFb.innerText = "This page has not declared a complaints page"; 
-    document.getElementById("cpSummary").classList.remove("ok");
-    document.getElementById("cpSummary").classList.add("nok");
+    AddMissingStatement(document.getElementById("complaints"),"This site has not declared a complints page");
+    ToggleNokClass("cpSummary");
   }
 
   console.log(response);
@@ -58,3 +49,24 @@ function loadNewTab(event) {
   chrome.tabs.create({url: event.target.href});
 }
 
+function ToggleOkClass(el){
+  document.getElementById(el).classList.add("ok");
+  document.getElementById(el).classList.remove("nok");
+}
+
+function ToggleNokClass(el){
+  document.getElementById(el).classList.add("nok");
+  document.getElementById(el).classList.remove("ok");
+}
+
+function AddLink(el,link){
+  el.href = link;
+  el.addEventListener("click",loadNewTab);  
+}
+
+function AddMissingStatement(el,msg) {
+  const newMsg = document.createElement("span");
+  newMsg.innerText = msg; 
+  el.after(newMsg);
+  el.remove();
+}
